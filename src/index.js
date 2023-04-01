@@ -31,12 +31,10 @@ function onSearch(e) {
         .catch(error => {
             REFS.countryList.innerHTML = ``;
             REFS.countryInfo.innerHTML = ``;
-            console.log(error)
             Notiflix.Notify.failure(error.message)
         })
         .finally(() => {
             function checkForm() {
-        // if (!searchCountry || searchCountry.length === 0 || )
                 if (searchCountry.length <= 1) {
                     Notiflix.Notify.info(`Enter the name of the country`)
                     REFS.countryList.innerHTML = ``;
@@ -53,7 +51,6 @@ function renderCardInfoAboutCountries(country){
     const markup = country.map(({ name, flags, languages, capital, population }) =>
         `<div style="display: flex;"><img width="40px" height="auto" style="margin-right: 10px" src="${flags.svg}" alt="Flag of ${name.official}"><span style="font-size: 24px; font-weight: 700">${name.official}</span></div><div style="margin-top: 10px"><b>Capital: </b>${capital}</div><div><b>Population: </b>${population}</div></div><div><b>Languages: </b>${Object.values(languages)}</div>`).join("");
     REFS.countryInfo.innerHTML = markup;
-    // REFS.countryInfo.children.style.display = `flex`;
 
 }
 
