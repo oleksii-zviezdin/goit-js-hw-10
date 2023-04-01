@@ -12,29 +12,38 @@ REFS.inputEl.addEventListener(`input`, debounce(onSearch, DEBOUNCE_DELAY))
 function onSearch(e) {
     e.preventDefault();
     const searchCountry = REFS.inputEl.value.trim();
+
+    if (!searchCountry) {
+        return;
+    }
     
     fetchCountries(searchCountry).then(data => {
         if (data.length > 10) {
             Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);
             REFS.countryList.innerHTML = ``;
+            REFS.countryInfo.innerHTML = ``;
             return;
         } else if (data.length >= 2 && data.length <= 10) {
+            REFS.countryInfo.innerHTML = ``;
             return renderListInfoAboutCountries(data);
         } return renderCardInfoAboutCountries(data)
     })
         .catch(error => {
             REFS.countryList.innerHTML = ``;
+            REFS.countryInfo.innerHTML = ``;
             console.log(error)
             Notiflix.Notify.failure(error.message)
         })
         .finally(() => {
             function checkForm() {
-                if (REFS.inputEl.value.length < 1) {
+        // if (!searchCountry || searchCountry.length === 0 || )
+                if (searchCountry.length <= 1) {
                     Notiflix.Notify.info(`Enter the name of the country`)
                     REFS.countryList.innerHTML = ``;
+                    REFS.countryInfo.innerHTML = ``;
                 }
             }           
-            setTimeout(checkForm, 500);
+            setTimeout(checkForm, 300);
         });
 }
 
