@@ -22,7 +22,11 @@ function onSearch(e) {
             return renderListInfoAboutCountries(data);
         } return renderCardInfoAboutCountries(data)
     })
-        .catch(error => Notiflix.Notify.failure(`Oops, there is no country with that name`))
+        .catch(error => {
+            REFS.countryList.innerHTML = ``;
+            console.log(error)
+            Notiflix.Notify.failure(error.message)
+        })
         .finally(() => {
             function checkForm() {
                 if (REFS.inputEl.value.length < 1) {
@@ -40,7 +44,7 @@ function renderCardInfoAboutCountries(country){
     const markup = country.map(({ name, flags, languages, capital, population }) =>
         `<div style="display: flex;"><img width="40px" height="auto" style="margin-right: 10px" src="${flags.svg}" alt="Flag of ${name.official}"><span style="font-size: 24px; font-weight: 700">${name.official}</span></div><div style="margin-top: 10px"><b>Capital: </b>${capital}</div><div><b>Population: </b>${population}</div></div><div><b>Languages: </b>${Object.values(languages)}</div>`).join("");
     REFS.countryInfo.innerHTML = markup;
-    REFS.countryInfo.children.style.display = `flex`;
+    // REFS.countryInfo.children.style.display = `flex`;
 
 }
 
